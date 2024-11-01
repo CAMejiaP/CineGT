@@ -63,12 +63,7 @@ namespace CineGT.Controllers
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = @"
-                select r.name as Role
-                from master.sys.server_role_members rm
-                inner join master.sys.server_principals r on r.principal_id = rm.role_principal_id and r.type = 'R'
-                inner join master.sys.server_principals m on m.principal_id = rm.member_principal_id
-                where m.name = @UserName;";
+                string query = "Todos.sp_mi_rol @UserName";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -78,7 +73,7 @@ namespace CineGT.Controllers
             }
 
             // Redirigir o mostrar vistas en función del rol
-            if (role == "Ventas")
+            if (role == "Vendedores")
             {
                 return View("VentasDashboard");
             }
