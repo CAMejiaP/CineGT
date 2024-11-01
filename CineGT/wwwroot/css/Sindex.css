@@ -1,0 +1,126 @@
+﻿:root {
+    --blanco: #FFFFFF;
+    --oscuro: #212121;
+    --primario: #ffc107;
+    --secundario: #0097a7;
+    --gris: #757575;
+    --degradado: #DFE9F3;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box; /*NECESARIO PARA LA LINEA DE ABAJO*/
+    /* scroll-snap-type: y mandatory; */ /* para que el scroll funcione para los servicio */
+}
+/*ESTO HACE QUE SI LE PONGO 200 DE TAMAÑO SEAN 200 DE TAMAÑO EN LUGAR DE 200 MAS TODOS LOS PADDINGS*/
+*, *::before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-size: 16px;
+    font-family: "Krub", sans-serif;
+    /* Esto sirve para hacer un degradao, 1.hacia donde va, 2.color inicial y que transparencia 3.color final y que tranparencia*/
+    background-image: linear-gradient(to top,var(--degradado) 0%, var(--blanco) 100%);
+}
+
+.formulario {
+    background-color: var(--gris);
+    width: min(60rem, 100%); /*esto es para que compare entre que es mas pequeño 600 rem o el 100% del tamaño de nuestro dispositivo*/
+    margin: 0 auto;
+    padding: 3rem;
+    border-radius: 1rem;
+}
+
+.formulario fieldset {
+    border: none;
+}
+
+.formulario legend {
+    color: var(--primario);
+    text-align: center;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+
+.campo {
+    margin-bottom: 1rem;
+}
+
+.campo:nth-child(3) {
+    grid-column: 1 / 3;
+}
+
+.campo:nth-child(4) {
+    grid-column: 1 / 3;
+}
+
+.campo label {
+    color: var(--blanco);
+    margin-bottom: .5rem;
+    display: block;
+    font-weight: 1000;
+}
+
+.input_text {
+    width: 100%;
+    border: none;
+    padding: 1.5rem;
+    border-radius: .5rem;
+}
+
+.enviar .boton {
+    width: 100%;
+}
+
+.campo textarea {
+    height: 20rem;
+}
+
+.enviar .boton {
+    width: 100%;
+}
+
+.boton {
+    background-color: var(--secundario);
+    color: var(--blanco);
+    padding: 1rem 3rem;
+    margin-top: 1rem;
+    font-size: 2rem;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: 90%;
+    text-align: center;
+    border: none;
+}
+
+.boton:hover {
+    cursor: pointer;
+}
+
+.titulo {
+    text-align: center;
+    font-size: 3.8rem;
+}
+
+.titulo span {
+    font-size: 2rem;
+}
+
+.contenedor {
+    max-width: 120rem; /*Se pone max para que tome 1200px*/
+    margin: 0 auto; /*Indica el margen de alto y ancho, luego */
+}
+
+.sombra {
+    box-shadow: -7px 11px 11px 1px rgba(87,87,87,0.65);
+    background-color: var(--blanco);
+    padding: 2rem;
+    border-radius: 15px 0px 15px 0px;
+    border: 0px solid #000000;
+}

@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancer</title>
+    <link rel="stylesheet" href="~/css/Sindex.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Krub&display=swap" rel="stylesheet">
+    <link href="~/css/normalize.css" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1 class="titulo">
+            CineGT
+            <span>Groove Orbes Finde Sur</span>
+        </h1>
+    </header>
+
+    <section>
+        <form class="formulario" method="post" action="/Home/Login">
+            <fieldset>
+                <legend>Inicio de Sesion</legend>
+                <div class="contenedor_campos">
+                    <div class="campo">
+                        <label>Usuario</label>
+                        <input class="input_text" type="text" name="username" placeholder="Usuario" required>
+                    </div>
+
+                    <div class="campo">
+                        <label>Contraseña</label>
+                        <input class="input_text" type="password" name="password" placeholder="Contraseña" required>
+                    </div>
+
+                </div>
+                <div class="enviar">
+                    <input class="boton" type="submit" value="Enviar">
+                </div>
+            </fieldset>
+        </form>
+    </section>
+
+</body>
+</html>
