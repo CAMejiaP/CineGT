@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Execute Procedure";
+    var procedureName = TempData["ProcedureName"]?.ToString();
+    var parameters = ViewBag.Parameters as List<string>;
+}
+
+<h2>Execute @procedureName</h2>
+
+<form method="post" asp-action="ExecuteProcedureWithParams">
+    @foreach (var param in parameters)
+    {
+        <div>
+            <label>@param:</label>
+            <input type="text" name="params[@param]" required />
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Execute</button>
+</form>
+
+@if (ViewBag.Result != null)
+{
+    <h3>Result</h3>
+    <div>@ViewBag.Result</div>
+}

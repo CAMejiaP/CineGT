@@ -1,0 +1,25 @@
+﻿:root {
+    --blanco: #FFFFFF;
+    --oscuro: #212121;
+    --primario: #ffc107;
+    --secundario: #0097a7;
+    --gris: #757575;
+    --degradado: #DFE9F3;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box; /*NECESARIO PARA LA LINEA DE ABAJO*/
+    /* scroll-snap-type: y mandatory; */ /* para que el scroll funcione para los servicio */
+}
+/*ESTO HACE QUE SI LE PONGO 200 DE TAMAÑO SEAN 200 DE TAMAÑO EN LUGAR DE 200 MAS TODOS LOS PADDINGS*/
+*, *::before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-size: 16px;
+    font-family: "Krub", sans-serif;
+    /* Esto sirve para hacer un degradao, 1.hacia donde va, 2.color inicial y que transparencia 3.color final y que tranparencia*/
+    background-image: linear-gradient(to top,var(--degradado) 0%, var(--blanco) 100%);
+}
