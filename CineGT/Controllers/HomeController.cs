@@ -162,7 +162,7 @@ namespace CineGT.Controllers
             }
 
             // Devolver la lista a la vista o manejar según sea necesario
-            return View("AQUIVALAVISTAXDXDXD",parameters);
+            return View("Menu Ingreso",parameters);
         }
 
         public IActionResult Privacy()
