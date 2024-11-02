@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<string>
+@{
     ViewData["Title"] = "Panel de Ventas";
 }
 
@@ -15,7 +16,10 @@
 </head>
 <body>
 
-
+    @foreach (string actual in Model)
+    {
+        <input type="submit" value="@actual">
+    }     
 
 </body>
 </html>
