@@ -13,16 +13,99 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Krub&display=swap" rel="stylesheet">
     <link href="~/css/normalize.css" rel="stylesheet">
+
+    <style>
+
+        head 
+        {
+            background-color: #252941;
+        }
+
+        html {
+            background-color: #252941;
+        }
+
+        body {
+            font-family: "Krub", sans-serif;
+            background-color: #222831;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .menu-container {
+            width: 100%;
+            background-color: #393e46;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-title {
+            background-color: #393e46;
+            padding: 10px;
+            font-size: 62px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-form {
+            display: flex;
+            flex-direction: column;
+            width:80%; 
+            gap: 10px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .menu-button {
+            flex: 1;
+            padding: 10px;
+            font-size: 42px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            background-color: #00adb5;
+            margin: 5px;
+            text-transform: uppercase;
+        }
+
+            .menu-button:last-child {
+                margin-right: 0;
+            }
+
+            .menu-button:hover {
+                opacity: 0.9;
+            }
+    </style>
+
 </head>
 <body>
-    
-    <form method="post" action="/Home/GetParametersProcedure">
-        @foreach (string actual in Model)
-        {
-            <input type="submit" name="procedureName" value="@actual" />
-        }
-    </form>
+    <div class="menu-title">Menú principal</div>
+    <div class="menu-container">
+        
+        <form class="menu-form" method="post" action="/Home/GetParametersProcedure">
+            @foreach (string actual in Model)
+            {
+                <button type="submit" class="menu-button" name="procedureName" value="@actual">@actual</button>
 
+            }
+        </form>
+    </div>
 
 </body>
 </html>
