@@ -73,19 +73,17 @@ namespace CineGT.Controllers
                 }
             }
 
-            // Redirigir o mostrar vistas en función del rol
-            if (role == "Ventas")
-            {   
-                List<string> ProcedureNames = GetStoredProcedures(role);
-                return View("VentasDashboard",ProcedureNames);
-            }
-            else if (role == "Reportes")
+            if (role != null)
             {
-                return View("ReportesDashboard");
+                List<string> ProcedureNames = GetStoredProcedures(role);
+                return View("VentasDashboard", ProcedureNames);
+            }
+            else
+            {
+                return View("AccessDenied");
             }
 
-            return View("AccessDenied");
-        }
+            }
 
         public List<string> GetStoredProcedures(string roleName)
         {
