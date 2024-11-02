@@ -24,7 +24,7 @@ namespace CineGT.Controllers
         public IActionResult Login(string username, string password)
         {
             // Construir la cadena de conexión con las credenciales ingresadas
-            string connectionString = $"Server=tcp:DESKTOP-P1Q2Q5U;Database=CineGT;User Id={username};Password={password};TrustServerCertificate=True;";
+            string connectionString = $"Server=tcp:LAPTOP-V7L0FOS4;Database=CineGT;User Id={username};Password={password};TrustServerCertificate=True;";
 
             try
             {
@@ -111,7 +111,9 @@ namespace CineGT.Controllers
                         {
                             // Read each row and add to the list as a tuple
                             string procedureName = reader.GetString(0);
-                            storedProcedures.Add((procedureName));
+                            procedureName = procedureName.Substring(3);
+                            procedureName = procedureName.Replace("_", " ");
+                            storedProcedures.Add(procedureName);
                         }
                     }
                 }
