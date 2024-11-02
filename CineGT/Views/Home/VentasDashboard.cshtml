@@ -16,12 +16,13 @@
 </head>
 <body>
     
-    <form method="post" action="/Home/Login">
+    <form method="post" action="/Home/GetParametersProcedure">
         @foreach (string actual in Model)
         {
-            <input type="submit" value="@actual">
-        }     
+            <input type="submit" name="procedureName" value="@actual" />
+        }
     </form>
+
 
 </body>
 </html>
