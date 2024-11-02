@@ -24,7 +24,7 @@ namespace CineGT.Controllers
         public IActionResult Login(string username, string password)
         {
             // Construir la cadena de conexión con las credenciales ingresadas
-            string connectionString = $"Server=tcp:LAPTOP-V7L0FOS4;Database=CineGT;User Id={username};Password={password};TrustServerCertificate=True;";
+            string connectionString = $"Server=tcp:DESKTOP-P1Q2Q5U;Database=CineGT;User Id={username};Password={password};TrustServerCertificate=True;";
 
             try
             {
@@ -127,28 +127,43 @@ namespace CineGT.Controllers
         {
             // Obtener la cadena de conexión del usuario desde la sesión
             string connectionString = HttpContext.Session.GetString("UserConnectionString");
+            procedureName = "sp_" + procedureName.Replace(" ", "_");
 
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                return RedirectToAction("Index"); // Redirigir al login si no hay conexión
-            }
+            // Lista para almacenar los parámetros y sus características
+            List<(string ParameterName, string DataType, int MaxLength, bool IsOutput)> parameters = new List<(string, string, int, bool)>();
 
-            // Realizar la llamada al procedimiento almacenado
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                using (var command = new SqlCommand(procedureName, connection))
+                // Especifica solo el nombre del procedimiento almacenado
+                string query = "Todos.sp_get_procedure_parameters";
+
+                using (var command = new SqlCommand(query, connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue("@ProcedureName", procedureName); // Asegúrate de que el nombre coincide
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Leer cada columna de la fila actual
+                            string parameterName = reader.GetString(0); // Nombre del parámetro
+                            string dataType = reader.GetString(1);      // Tipo de datos
+                            int maxLength = reader.GetInt16(2);         // Longitud máxima
+                            bool isOutput = reader.GetBoolean(3);       // Indicador de parámetro de salida
+
+                            // Agregar la tupla a la lista
+                            parameters.Add((parameterName, dataType, maxLength, isOutput));
+                        }
+                    }
                 }
             }
 
-            // Redirigir a una vista de confirmación o actualizar el dashboard
-            return RedirectToAction("UserDashboard");
+            // Devolver la lista a la vista o manejar según sea necesario
+            return View("AQUIVALAVISTAXDXDXD",parameters);
         }
-
 
         public IActionResult Privacy()
         {
