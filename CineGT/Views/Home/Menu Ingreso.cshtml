@@ -1,0 +1,108 @@
+﻿@using System.Data
+@model List<ProcedureParameter>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+    <link rel="stylesheet" href="~/css/Sindex.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Krub&display=swap" rel="stylesheet">
+    <link href="~/css/normalize.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <h1 class="titulo">
+            Formulario Ingreso de Datos
+            <span>Groove Orbes Finde Sur</span>
+        </h1>
+    </header>
+
+    <section>
+        <!-- Formulario para enviar datos al controlador -->
+        <form class="formulario" method="post" action="/Home/ExecuteProcedure">
+            <legend>Datos Necesarios</legend>
+            
+            <!-- Campo oculto para ProcedureName -->
+            <input type="hidden" name="ProcedureName" value="@Model.FirstOrDefault()?.ProcedureName" />
+
+            <!-- Ciclo para agregar los parámetros dinámicos -->
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="campo">
+                    <label>@Model[i].ParameterName</label>
+                    <input class="input_text"
+                           placeholder="@Model[i].ParameterName"
+                           name="parameters[@i].Value"
+                           maxlength="@Model[i].MaxLength"
+                           required />
+                    
+                    <!-- Inputs ocultos para enviar el ParameterName y DataType de cada parámetro -->
+                    <input type="hidden" name="parameters[@i].ParameterName" value="@Model[i].ParameterName" />
+                    <input type="hidden" name="parameters[@i].DataType" value="@Model[i].DataType" />
+                    <input type="hidden" name="parameters[@i].MaxLength" value="@Model[i].MaxLength" />
+                    <input type="hidden" name="parameters[@i].IsOutput" value="@Model[i].IsOutput" />
+                </div>
+            }
+            
+            <div class="enviar">
+                <input class="boton" type="submit" value="Enviar">
+            </div>
+        </form>
+    </section>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="error-message">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div id="result-table-container">
+        @if (ViewBag.ResultTable != null)
+        {           
+            <section>
+                <h3>Resultados del Query</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            @foreach (DataColumn column in ViewBag.ResultTable.Columns)
+                            {
+                                <th>@column.ColumnName</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row in ViewBag.ResultTable.Rows)
+                        {
+                            <tr>
+                                @foreach (var item in row.ItemArray)
+                                {
+                                    <td>@item</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </section>
+        }
+    </div>
+
+    <script>
+        function refreshTable() {
+            const tableContainer = document.getElementById('result-table-container');
+            if (tableContainer) {
+                tableContainer.innerHTML = ''; // Borra la tabla anterior
+            }
+        }
+    </script>
+
+
+
+
+</body>
+</html>

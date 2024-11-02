@@ -24,7 +24,7 @@ namespace CineGT.Controllers
         public IActionResult Login(string username, string password)
         {
             // Construir la cadena de conexión con las credenciales ingresadas
-            string connectionString = $"Server=tcp:LAPTOP-V7L0FOS4;Database=CineGT;User Id={username};Password={password};TrustServerCertificate=True;";
+            string connectionString = $"Server=tcp:DESKTOP-P1Q2Q5U;Database=CineGT;User Id={username};Password={password};TrustServerCertificate=True;";
 
             try
             {
@@ -123,14 +123,16 @@ namespace CineGT.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public IActionResult GetParametersProcedure(string procedureName)
         {
             // Obtener la cadena de conexión del usuario desde la sesión
             string connectionString = HttpContext.Session.GetString("UserConnectionString");
             procedureName = "sp_" + procedureName.Replace(" ", "_");
 
+
             // Lista para almacenar los parámetros y sus características
-            List<(string ParameterName, string DataType, int MaxLength, bool IsOutput)> parameters = new List<(string, string, int, bool)>();
+            List<ProcedureParameter> parameters = new List<ProcedureParameter>();
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -142,28 +144,138 @@ namespace CineGT.Controllers
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@ProcedureName", procedureName); // Asegúrate de que el nombre coincide
+                    command.Parameters.AddWithValue("@ProcedureName", procedureName);
 
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            // Leer cada columna de la fila actual
-                            string parameterName = reader.GetString(0); // Nombre del parámetro
-                            string dataType = reader.GetString(1);      // Tipo de datos
-                            int maxLength = reader.GetInt16(2);         // Longitud máxima
-                            bool isOutput = reader.GetBoolean(3);       // Indicador de parámetro de salida
+                            // Crear una instancia de ProcedureParameter para cada parámetro
+                            var parameter = new ProcedureParameter
+                            {
+                                ProcedureName = procedureName,
+                                ParameterName = reader.GetString(0),
+                                DataType = reader.GetString(1),
+                                MaxLength = reader.GetInt16(2),
+                                IsOutput = reader.GetBoolean(3),
+                                Value = ""  // Inicializa el valor vacío
+                            };
 
-                            // Agregar la tupla a la lista
-                            parameters.Add((parameterName, dataType, maxLength, isOutput));
+                            // Ajusta el tipo de datos para el input HTML según el tipo de SQL
+                            parameter.DataType = parameter.DataType switch
+                            {
+                                "int" => "number",
+                                "varchar" => "text",
+                                _ => "text"
+                            };
+
+                            parameters.Add(parameter);
                         }
                     }
                 }
             }
 
-            // Devolver la lista a la vista o manejar según sea necesario
-            return View("Menu Ingreso",parameters);
+            // Devolver la lista de parámetros a la vista
+            return View("Menu Ingreso", parameters);
         }
+
+        [HttpPost]
+        public IActionResult ExecuteProcedure(string ProcedureName, List<ProcedureParameter> parameters)
+        {
+            try
+            {
+                // Obtener la cadena de conexión del usuario desde la sesión
+                string connectionString = HttpContext.Session.GetString("UserConnectionString");
+
+                // Extraer el nombre de usuario y rol
+                string userName = new SqlConnectionStringBuilder(connectionString).UserID;
+                string role = null;
+
+                // Verificar y construir el nombre del procedimiento con el rol
+                if (!ProcedureName.Contains("."))
+                {
+                    using (var connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        string query = "Todos.sp_mi_rol @UserName";
+
+                        using (var command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@UserName", userName);
+                            role = (string)command.ExecuteScalar();
+                        }
+                        connection.Close();
+                    }
+
+                    ProcedureName = $"{role}.{ProcedureName}";
+                }
+
+                // Asignar el nombre del procedimiento a todos los parámetros
+                parameters.ForEach(param => param.ProcedureName = ProcedureName);
+
+                // Ejecutar el procedimiento y manejar resultados
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (var command = new SqlCommand(ProcedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters to the command
+                        foreach (var param in parameters)
+                        {
+                            SqlParameter sqlParam = new SqlParameter(param.ParameterName, param.Value);
+                            sqlParam.SqlDbType = param.DataType == "number" ? SqlDbType.Int : SqlDbType.VarChar;
+                            sqlParam.Size = param.MaxLength;
+                            sqlParam.Value = string.IsNullOrEmpty(param.Value) ? (object)DBNull.Value : param.Value;
+                            sqlParam.Direction = param.IsOutput ? ParameterDirection.Output : ParameterDirection.Input;
+                            command.Parameters.Add(sqlParam);
+                        }
+
+                        // Create a DataTable to store the result
+                        DataTable resultTable = new DataTable();
+
+                        // Try to fill the DataTable with SqlDataAdapter
+                        using (var adapter = new SqlDataAdapter(command))
+                        {
+                            adapter.Fill(resultTable);
+                        }
+
+                        // Check if resultTable has rows
+                        if (resultTable.Rows.Count > 0)
+                        {
+                            // If it has rows, assign it to ViewBag for display
+                            ViewBag.ResultTable = resultTable;
+                        }
+                        else
+                        {
+                            // Collect output parameter values
+                            var outputResults = new Dictionary<string, object>();
+                            foreach (SqlParameter sqlParam in command.Parameters)
+                            {
+                                if (sqlParam.Direction == ParameterDirection.Output)
+                                {
+                                    outputResults[sqlParam.ParameterName] = sqlParam.Value;
+                                }
+                            }
+
+                            ViewBag.OutputResults = outputResults;
+                        }
+                    }
+                }
+
+
+                return View("Menu Ingreso", parameters);
+            }
+            catch (SqlException ex)
+            {
+                // Pasar el mensaje de error a la vista
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Menu Ingreso", parameters);
+            }
+        }
+
 
         public IActionResult Privacy()
         {
