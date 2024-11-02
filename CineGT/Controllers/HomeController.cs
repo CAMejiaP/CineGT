@@ -120,6 +120,34 @@ namespace CineGT.Controllers
             return storedProcedures;
         }
 
+        [HttpPost]
+        public IActionResult GetParametersProcedure(string procedureName)
+        {
+            // Obtener la cadena de conexión del usuario desde la sesión
+            string connectionString = HttpContext.Session.GetString("UserConnectionString");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                return RedirectToAction("Index"); // Redirigir al login si no hay conexión
+            }
+
+            // Realizar la llamada al procedimiento almacenado
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand(procedureName, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            // Redirigir a una vista de confirmación o actualizar el dashboard
+            return RedirectToAction("UserDashboard");
+        }
+
+
         public IActionResult Privacy()
         {
             return View();
