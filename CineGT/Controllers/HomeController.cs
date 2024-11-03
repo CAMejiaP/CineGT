@@ -332,10 +332,58 @@ namespace CineGT.Controllers
         [HttpPost]
         public IActionResult MuestreoAsientos(int idSesion, List<ProcedureParameter> ProcedureParameters)
         {
-            
-            return View("Seleccion Manual");
+            foreach (ProcedureParameter actual in ProcedureParameters)
+            {
+                if (actual.ParameterName == "@id_sesion")
+                {
+                    actual.Value = Convert.ToString(idSesion);
+                    break;
+                }
+            }
+
+            var asientos = new List<(int idAsiento, bool ocupado)>();
+
+            try
+            {
+                string connectionString = HttpContext.Session.GetString("UserConnectionString");
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (var command = new SqlCommand("Ventas.sp_asientos_sesion", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Agrega el parámetro @id_sesion al comando
+                        command.Parameters.Add(new SqlParameter("@id_sesion", SqlDbType.Int) { Value = idSesion });
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                asientos.Add((
+                                 reader.GetInt32(0),        // Lee `id_asiento` como `int`
+                                 reader.GetInt32(1) != 0    // Convierte el valor `int` a `bool` comprobando si es distinto de 0
+                             ));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+            }
+
+            return View("SeleccionManual", (ProcedureParameters,asientos));
         }
 
+
+        [HttpPost]
+        public IActionResult EjecutarProcedimiento(string asientos, List<ProcedureParameter> item1)
+        {
+            // Lógica para manejar el procedimiento
+            return View(); // O redirigir a otra vista
+        }
 
         public IActionResult Privacy()
         {

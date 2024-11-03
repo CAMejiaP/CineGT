@@ -1,7 +1,9 @@
-﻿@*
+﻿@model (List<ProcedureParameter>,List<(int idAsiento, bool ocupado)>)
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    string asientos = "";   
 }
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
@@ -33,6 +35,10 @@
             font-size: 14px;
             cursor: pointer;
             text-align: center;
+        }
+
+        .seat-occupied {
+            background-color: red; /* Color para los asientos ocupados */
         }
 
         .row-label {
@@ -70,101 +76,136 @@
 </head>
 <body>
 
+    <form method="post" action="/Home/EjecutarProcedimiento">
+
     <div class="cinema-seats">
         <!-- Fila A -->
         <div class="row-label">A</div>
         <div class="row-A">
-            <button class="seat">11</button>
-            <button class="seat">10</button>
-            <button class="seat">9</button>
-            <button class="seat">8</button>
-            <button class="seat">7</button>
-            <button class="seat">6</button>
-            <button class="seat">5</button>
-            <button class="seat">4</button>
-            <button class="seat">3</button>
-            <button class="seat">2</button>
-            <button class="seat">1</button>
+            <button class="seat @(Model.Item2[10].ocupado ? "seat-occupied" : "")" value="@Model.Item2[10].idAsiento" @(Model.Item2[10].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">11</button>
+            <button class="seat @(Model.Item2[9].ocupado ? "seat-occupied" : "")" value="@Model.Item2[9].idAsiento" @(Model.Item2[10].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">10</button>
+            <button class="seat @(Model.Item2[8].ocupado ? "seat-occupied" : "")" value="@Model.Item2[8].idAsiento" @(Model.Item2[9].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">9</button>
+            <button class="seat @(Model.Item2[7].ocupado ? "seat-occupied" : "")" value="@Model.Item2[7].idAsiento" @(Model.Item2[8].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">8</button>
+            <button class="seat @(Model.Item2[6].ocupado ? "seat-occupied" : "")" value="@Model.Item2[6].idAsiento" @(Model.Item2[7].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">7</button>
+            <button class="seat @(Model.Item2[5].ocupado ? "seat-occupied" : "")" value="@Model.Item2[5].idAsiento" @(Model.Item2[6].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">6</button>
+            <button class="seat @(Model.Item2[4].ocupado ? "seat-occupied" : "")" value="@Model.Item2[4].idAsiento" @(Model.Item2[5].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">5</button>
+            <button class="seat @(Model.Item2[3].ocupado ? "seat-occupied" : "")" value="@Model.Item2[3].idAsiento" @(Model.Item2[4].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">4</button>
+            <button class="seat @(Model.Item2[2].ocupado ? "seat-occupied" : "")" value="@Model.Item2[2].idAsiento" @(Model.Item2[3].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">3</button>
+            <button class="seat @(Model.Item2[1].ocupado ? "seat-occupied" : "")" value="@Model.Item2[1].idAsiento" @(Model.Item2[2].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">2</button>
+            <button class="seat @(Model.Item2[0].ocupado ? "seat-occupied" : "")" value="@Model.Item2[0].idAsiento" @(Model.Item2[0].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">1</button>
         </div>
         <div class="row-label">A</div>
 
         <!-- Fila B -->
         <div class="row-label">B</div>
         <div class="row-B">
-            <button class="seat">9</button>
-            <button class="seat">8</button>
-            <button class="seat">7</button>
-            <button class="seat">6</button>
-            <button class="seat">5</button>
-            <button class="seat">4</button>
-            <button class="seat">3</button>
-            <button class="seat">2</button>
-            <button class="seat">1</button>
+            <button class="seat @(Model.Item2[19].ocupado ? "seat-occupied" : "")" value="@Model.Item2[19].idAsiento" @(Model.Item2[19].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">9</button>
+            <button class="seat @(Model.Item2[18].ocupado ? "seat-occupied" : "")" value="@Model.Item2[18].idAsiento" @(Model.Item2[18].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">8</button>
+            <button class="seat @(Model.Item2[17].ocupado ? "seat-occupied" : "")" value="@Model.Item2[17].idAsiento" @(Model.Item2[17].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">7</button>
+            <button class="seat @(Model.Item2[16].ocupado ? "seat-occupied" : "")" value="@Model.Item2[16].idAsiento" @(Model.Item2[16].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">6</button>
+            <button class="seat @(Model.Item2[15].ocupado ? "seat-occupied" : "")" value="@Model.Item2[15].idAsiento" @(Model.Item2[15].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">5</button>
+            <button class="seat @(Model.Item2[14].ocupado ? "seat-occupied" : "")" value="@Model.Item2[14].idAsiento" @(Model.Item2[14].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">4</button>
+            <button class="seat @(Model.Item2[13].ocupado ? "seat-occupied" : "")" value="@Model.Item2[13].idAsiento" @(Model.Item2[13].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">3</button>
+            <button class="seat @(Model.Item2[12].ocupado ? "seat-occupied" : "")" value="@Model.Item2[12].idAsiento" @(Model.Item2[12].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">2</button>
+            <button class="seat @(Model.Item2[11].ocupado ? "seat-occupied" : "")" value="@Model.Item2[11].idAsiento" @(Model.Item2[11].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">1</button>
         </div>
         <div class="row-label">B</div>
 
         <!-- Fila C -->
         <div class="row-label">C</div>
         <div class="row-C">
-            <button class="seat">9</button>
-            <button class="seat">8</button>
-            <button class="seat">7</button>
-            <button class="seat">6</button>
-            <button class="seat">5</button>
-            <button class="seat">4</button>
-            <button class="seat">3</button>
-            <button class="seat">2</button>
-            <button class="seat">1</button>
+            <button class="seat @(Model.Item2[28].ocupado ? "seat-occupied" : "")" value="@Model.Item2[28].idAsiento" @(Model.Item2[28].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">9</button>
+            <button class="seat @(Model.Item2[27].ocupado ? "seat-occupied" : "")" value="@Model.Item2[27].idAsiento" @(Model.Item2[27].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">8</button>
+            <button class="seat @(Model.Item2[26].ocupado ? "seat-occupied" : "")" value="@Model.Item2[26].idAsiento" @(Model.Item2[26].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">7</button>
+            <button class="seat @(Model.Item2[25].ocupado ? "seat-occupied" : "")" value="@Model.Item2[25].idAsiento" @(Model.Item2[25].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">6</button>
+            <button class="seat @(Model.Item2[24].ocupado ? "seat-occupied" : "")" value="@Model.Item2[24].idAsiento" @(Model.Item2[24].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">5</button>
+            <button class="seat @(Model.Item2[23].ocupado ? "seat-occupied" : "")" value="@Model.Item2[23].idAsiento" @(Model.Item2[23].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">4</button>
+            <button class="seat @(Model.Item2[22].ocupado ? "seat-occupied" : "")" value="@Model.Item2[22].idAsiento" @(Model.Item2[22].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">3</button>
+            <button class="seat @(Model.Item2[21].ocupado ? "seat-occupied" : "")" value="@Model.Item2[21].idAsiento" @(Model.Item2[21].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">2</button>
+            <button class="seat @(Model.Item2[20].ocupado ? "seat-occupied" : "")" value="@Model.Item2[20].idAsiento" @(Model.Item2[20].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">1</button>
         </div>
         <div class="row-label">C</div>
 
         <!-- Fila D -->
         <div class="row-label">D</div>
         <div class="row-D">
-            <button class="seat">9</button>
-            <button class="seat">8</button>
-            <button class="seat">7</button>
-            <button class="seat">6</button>
-            <button class="seat">5</button>
-            <button class="seat">4</button>
-            <button class="seat">3</button>
-            <button class="seat">2</button>
-            <button class="seat">1</button>
+            <button class="seat @(Model.Item2[37].ocupado ? "seat-occupied" : "")" value="@Model.Item2[37].idAsiento" @(Model.Item2[37].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">9</button>
+            <button class="seat @(Model.Item2[36].ocupado ? "seat-occupied" : "")" value="@Model.Item2[36].idAsiento" @(Model.Item2[36].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">8</button>
+            <button class="seat @(Model.Item2[35].ocupado ? "seat-occupied" : "")" value="@Model.Item2[35].idAsiento" @(Model.Item2[35].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">7</button>
+            <button class="seat @(Model.Item2[34].ocupado ? "seat-occupied" : "")" value="@Model.Item2[34].idAsiento" @(Model.Item2[34].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">6</button>
+            <button class="seat @(Model.Item2[33].ocupado ? "seat-occupied" : "")" value="@Model.Item2[33].idAsiento" @(Model.Item2[33].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">5</button>
+            <button class="seat @(Model.Item2[32].ocupado ? "seat-occupied" : "")" value="@Model.Item2[32].idAsiento" @(Model.Item2[32].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">4</button>
+            <button class="seat @(Model.Item2[31].ocupado ? "seat-occupied" : "")" value="@Model.Item2[31].idAsiento" @(Model.Item2[31].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">3</button>
+            <button class="seat @(Model.Item2[30].ocupado ? "seat-occupied" : "")" value="@Model.Item2[30].idAsiento" @(Model.Item2[30].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">2</button>
+            <button class="seat @(Model.Item2[29].ocupado ? "seat-occupied" : "")" value="@Model.Item2[29].idAsiento" @(Model.Item2[29].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">1</button>
         </div>
         <div class="row-label">D</div>
 
         <!-- Fila E -->
         <div class="row-label">E</div>
         <div class="row-E">
-            <button class="seat">9</button>
-            <button class="seat">8</button>
-            <button class="seat">7</button>
-            <button class="seat">6</button>
-            <button class="seat">5</button>
-            <button class="seat">4</button>
-            <button class="seat">3</button>
-            <button class="seat">2</button>
-            <button class="seat">1</button>
+            <button class="seat @(Model.Item2[46].ocupado ? "seat-occupied" : "")" value="@Model.Item2[46].idAsiento" @(Model.Item2[46].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">9</button>
+            <button class="seat @(Model.Item2[45].ocupado ? "seat-occupied" : "")" value="@Model.Item2[45].idAsiento" @(Model.Item2[45].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">8</button>
+            <button class="seat @(Model.Item2[44].ocupado ? "seat-occupied" : "")" value="@Model.Item2[44].idAsiento" @(Model.Item2[44].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">7</button>
+            <button class="seat @(Model.Item2[43].ocupado ? "seat-occupied" : "")" value="@Model.Item2[43].idAsiento" @(Model.Item2[43].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">6</button>
+            <button class="seat @(Model.Item2[42].ocupado ? "seat-occupied" : "")" value="@Model.Item2[42].idAsiento" @(Model.Item2[42].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">5</button>
+            <button class="seat @(Model.Item2[41].ocupado ? "seat-occupied" : "")" value="@Model.Item2[41].idAsiento" @(Model.Item2[41].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">4</button>
+            <button class="seat @(Model.Item2[40].ocupado ? "seat-occupied" : "")" value="@Model.Item2[40].idAsiento" @(Model.Item2[40].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">3</button>
+            <button class="seat @(Model.Item2[39].ocupado ? "seat-occupied" : "")" value="@Model.Item2[39].idAsiento" @(Model.Item2[39].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">2</button>
+            <button class="seat @(Model.Item2[38].ocupado ? "seat-occupied" : "")" value="@Model.Item2[38].idAsiento" @(Model.Item2[38].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">1</button>
         </div>
         <div class="row-label">E</div>
 
         <!-- Fila F -->
         <div class="row-label">F</div>
         <div class="row-F">
-            <button class="seat">9</button>
-            <button class="seat">8</button>
-            <button class="seat">7</button>
-            <button class="seat">6</button>
-            <button class="seat">5</button>
-            <button class="seat">4</button>
-            <button class="seat">3</button>
-            <button class="seat">2</button>
-            <button class="seat">1</button>
+            <button class="seat @(Model.Item2[55].ocupado ? "seat-occupied" : "")" value="@Model.Item2[55].idAsiento" @(Model.Item2[55].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">9</button>
+            <button class="seat @(Model.Item2[54].ocupado ? "seat-occupied" : "")" value="@Model.Item2[54].idAsiento" @(Model.Item2[54].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">8</button>
+            <button class="seat @(Model.Item2[53].ocupado ? "seat-occupied" : "")" value="@Model.Item2[53].idAsiento" @(Model.Item2[53].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">7</button>
+            <button class="seat @(Model.Item2[52].ocupado ? "seat-occupied" : "")" value="@Model.Item2[52].idAsiento" @(Model.Item2[52].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">6</button>
+            <button class="seat @(Model.Item2[51].ocupado ? "seat-occupied" : "")" value="@Model.Item2[51].idAsiento" @(Model.Item2[51].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">5</button>
+            <button class="seat @(Model.Item2[50].ocupado ? "seat-occupied" : "")" value="@Model.Item2[50].idAsiento" @(Model.Item2[50].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">4</button>
+            <button class="seat @(Model.Item2[49].ocupado ? "seat-occupied" : "")" value="@Model.Item2[49].idAsiento" @(Model.Item2[49].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">3</button>
+            <button class="seat @(Model.Item2[48].ocupado ? "seat-occupied" : "")" value="@Model.Item2[48].idAsiento" @(Model.Item2[48].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">2</button>
+            <button class="seat @(Model.Item2[47].ocupado ? "seat-occupied" : "")" value="@Model.Item2[47].idAsiento" @(Model.Item2[47].ocupado ? "disabled" : "") onclick="addSeat(this.value, event)"">1</button>
         </div>
         <div class="row-label">F</div>
     </div>
 
     <div class="screen">PANTALLA</div>
+
+        <!-- Campo oculto para enviar los asientos seleccionados -->
+        <input type="hidden" id="asientos" name="asientos" value="@asientos" />
+
+        <!-- Campos ocultos para enviar cada propiedad de cada ProcedureParameter -->
+        @for (int i = 0; i < Model.Item1.Count; i++)
+        {
+            <input type="hidden" name="item1[@i].ProcedureName" value="@Model.Item1[i].ProcedureName" />
+            <input type="hidden" name="item1[@i].ParameterName" value="@Model.Item1[i].ParameterName" />
+            <input type="hidden" name="item1[@i].DataType" value="@Model.Item1[i].DataType" />
+            <input type="hidden" name="item1[@i].MaxLength" value="@Model.Item1[i].MaxLength" />
+            <input type="hidden" name="item1[@i].IsOutput" value="@(Model.Item1[i].IsOutput ? "true" : "false")" />
+            <input type="hidden" name="item1[@i].Value" value="@Model.Item1[i].Value" />
+        }
+
+        <button type="submit">Enviar selección</button>
+
+
+    </form>
+
+    <script>
+        function addSeat(asientoId, event) {
+            event.preventDefault();  // Previene el envío del formulario
+            var asientosField = document.getElementById("asientos");
+            if (asientosField.value) {
+                asientosField.value += "," + asientoId;
+            } else {
+                asientosField.value = asientoId;
+            }
+        }
+    </script>
+
+
 
 </body>
 </html>
