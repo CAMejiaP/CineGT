@@ -123,8 +123,7 @@ namespace CineGT.Controllers
 
             return storedProcedures;
         }
-
-        [HttpPost]
+        
         [HttpPost]
         public IActionResult GetParametersProcedure(string procedureName)
         {
@@ -273,8 +272,7 @@ namespace CineGT.Controllers
                             ViewBag.OutputResults = outputResults;
                         }
                     }
-                }
-
+                }               
 
                 return View("Menu Ingreso", parameters);
             }
@@ -381,8 +379,16 @@ namespace CineGT.Controllers
         [HttpPost]
         public IActionResult EjecutarProcedimiento(string asientos, List<ProcedureParameter> item1)
         {
-            // Lógica para manejar el procedimiento
-            return View(); // O redirigir a otra vista
+            foreach (ProcedureParameter actual in item1)
+            {
+                if (actual.ParameterName == "@asientos")
+                {
+                    actual.Value = asientos;
+                    break;
+                }
+            }            
+
+            return ExecuteProcedure(item1[0].ProcedureName, item1);
         }
 
         public IActionResult Privacy()
