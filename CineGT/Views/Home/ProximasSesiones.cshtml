@@ -1,0 +1,40 @@
+﻿@model (List<(int idSesion, string nombrePelicula, DateTime fechaInicioSesion)>, List<ProcedureParameter>)
+
+<h2>Próximas Sesiones</h2>
+
+@if (Model.Item1.Count > 0)
+{
+    <!-- Formulario para enviar idSesion y ProcedureParameter al controlador -->
+    <form method="post" action="/Home/MuestreoAsientos">
+        <select name="idSesion">
+            @foreach (var sesion in Model.Item1)
+            {
+                <option value="@sesion.idSesion">@sesion.nombrePelicula - HORA: @sesion.fechaInicioSesion</option>
+            }
+        </select>
+
+        <!-- Campos ocultos para cada propiedad de ProcedureParameter -->
+        @for (int i = 0; i < Model.Item2.Count; i++)
+        {
+            <input type="hidden" name="ProcedureParameters[@i].ProcedureName" value="@Model.Item2[i].ProcedureName" />
+            <input type="hidden" name="ProcedureParameters[@i].ParameterName" value="@Model.Item2[i].ParameterName" />
+            <input type="hidden" name="ProcedureParameters[@i].DataType" value="@Model.Item2[i].DataType" />
+            <input type="hidden" name="ProcedureParameters[@i].MaxLength" value="@Model.Item2[i].MaxLength" />
+            <input type="hidden" name="ProcedureParameters[@i].IsOutput" value="@Model.Item2[i].IsOutput" />
+            <input type="hidden" name="ProcedureParameters[@i].Value" value="@Model.Item2[i].Value" />
+        }
+
+        <button type="submit">Enviar</button>
+    </form>
+}
+else
+{
+    <p>No hay próximas sesiones disponibles.</p>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="error-message">
+        <p>@ViewBag.ErrorMessage</p>
+    </div>
+}

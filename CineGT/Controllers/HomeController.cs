@@ -1,6 +1,7 @@
 using CineGT.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using System.Data;
 using System.Diagnostics;
 
@@ -34,6 +35,7 @@ namespace CineGT.Controllers
                     connection.Open();
                     // Guardar la cadena de conexión en la sesión del usuario
                     HttpContext.Session.SetString("UserConnectionString", connectionString);
+                    connection.Close();
                 }
 
                 // Llamar a un método para determinar el rol del usuario
@@ -130,7 +132,6 @@ namespace CineGT.Controllers
             string connectionString = HttpContext.Session.GetString("UserConnectionString");
             procedureName = "sp_" + procedureName.Replace(" ", "_");
 
-
             // Lista para almacenar los parámetros y sus características
             List<ProcedureParameter> parameters = new List<ProcedureParameter>();
 
@@ -166,6 +167,7 @@ namespace CineGT.Controllers
                             {
                                 "int" => "number",
                                 "varchar" => "text",
+                                "datetime" => "datetime",
                                 _ => "text"
                             };
 
@@ -175,9 +177,17 @@ namespace CineGT.Controllers
                 }
             }
 
-            // Devolver la lista de parámetros a la vista
+            // Serializar los parámetros en JSON y almacenarlos en TempData
+            TempData["ProcedureParameters"] = JsonConvert.SerializeObject(parameters);
+
+            if (procedureName == "sp_venta_asiento_manual")
+            {
+                return RedirectToAction("ProximasSesiones");
+            }
+
             return View("Menu Ingreso", parameters);
         }
+
 
         [HttpPost]
         public IActionResult ExecuteProcedure(string ProcedureName, List<ProcedureParameter> parameters)
@@ -274,6 +284,56 @@ namespace CineGT.Controllers
                 ViewBag.ErrorMessage = ex.Message;
                 return View("Menu Ingreso", parameters);
             }
+        }
+
+        public IActionResult ProximasSesiones()
+        {
+            // Verificar si hay parámetros almacenados en TempData
+            List<ProcedureParameter> parameters = new List<ProcedureParameter>();
+            if (TempData.ContainsKey("ProcedureParameters"))
+            {
+                parameters = JsonConvert.DeserializeObject<List<ProcedureParameter>>(TempData["ProcedureParameters"].ToString());
+            }
+
+            // Ejecutar el procedimiento almacenado y obtener los resultados
+            var sesiones = new List<(int idSesion, string nombrePelicula, DateTime fechaInicioSesion)>();
+
+            try
+            {
+                string connectionString = HttpContext.Session.GetString("UserConnectionString");
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (var command = new SqlCommand("Ventas.sp_proximax_sesiones", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                sesiones.Add((
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.GetDateTime(2)
+                                ));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+            }
+
+            return View("ProximasSesiones", (sesiones, parameters));
+        }
+
+        [HttpPost]
+        public IActionResult MuestreoAsientos(int idSesion, List<ProcedureParameter> ProcedureParameters)
+        {
+            
+            return View("Seleccion Manual");
         }
 
 

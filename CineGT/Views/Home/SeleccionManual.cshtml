@@ -1,0 +1,170 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
+
+        .cinema-seats {
+            display: grid;
+            grid-template-columns: 30px repeat(11, 50px) 30px; /* Columnas adicionales para los nombres de filas a ambos lados */
+            grid-gap: 5px; /* Ajusta el espacio entre los asientos */
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .seat {
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50; /* Color del asiento */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .row-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .screen {
+            margin: 40px auto 0 auto; /* Centro horizontalmente */
+            background-color: darkgrey;
+            width: calc(50px * 11 + 5px * 10); /* Ancho total de los asientos */
+            height: 50px;
+            text-align: center;
+            border-bottom-right-radius: 1.5rem;
+            border-bottom-left-radius: 1.5rem;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            line-height: 50px;
+        }
+
+
+        /* Ajusta las filas para centrar en función de la cantidad de columnas */
+        .row-A {
+            grid-column: 2 / span 11; /* Ajusta el rango de columnas para centrar */
+        }
+
+        .row-B, .row-C, .row-D, .row-E, .row-F {
+            grid-column: 3 / span 10; /* Ajusta el rango de columnas para centrar filas */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cinema-seats">
+        <!-- Fila A -->
+        <div class="row-label">A</div>
+        <div class="row-A">
+            <button class="seat">11</button>
+            <button class="seat">10</button>
+            <button class="seat">9</button>
+            <button class="seat">8</button>
+            <button class="seat">7</button>
+            <button class="seat">6</button>
+            <button class="seat">5</button>
+            <button class="seat">4</button>
+            <button class="seat">3</button>
+            <button class="seat">2</button>
+            <button class="seat">1</button>
+        </div>
+        <div class="row-label">A</div>
+
+        <!-- Fila B -->
+        <div class="row-label">B</div>
+        <div class="row-B">
+            <button class="seat">9</button>
+            <button class="seat">8</button>
+            <button class="seat">7</button>
+            <button class="seat">6</button>
+            <button class="seat">5</button>
+            <button class="seat">4</button>
+            <button class="seat">3</button>
+            <button class="seat">2</button>
+            <button class="seat">1</button>
+        </div>
+        <div class="row-label">B</div>
+
+        <!-- Fila C -->
+        <div class="row-label">C</div>
+        <div class="row-C">
+            <button class="seat">9</button>
+            <button class="seat">8</button>
+            <button class="seat">7</button>
+            <button class="seat">6</button>
+            <button class="seat">5</button>
+            <button class="seat">4</button>
+            <button class="seat">3</button>
+            <button class="seat">2</button>
+            <button class="seat">1</button>
+        </div>
+        <div class="row-label">C</div>
+
+        <!-- Fila D -->
+        <div class="row-label">D</div>
+        <div class="row-D">
+            <button class="seat">9</button>
+            <button class="seat">8</button>
+            <button class="seat">7</button>
+            <button class="seat">6</button>
+            <button class="seat">5</button>
+            <button class="seat">4</button>
+            <button class="seat">3</button>
+            <button class="seat">2</button>
+            <button class="seat">1</button>
+        </div>
+        <div class="row-label">D</div>
+
+        <!-- Fila E -->
+        <div class="row-label">E</div>
+        <div class="row-E">
+            <button class="seat">9</button>
+            <button class="seat">8</button>
+            <button class="seat">7</button>
+            <button class="seat">6</button>
+            <button class="seat">5</button>
+            <button class="seat">4</button>
+            <button class="seat">3</button>
+            <button class="seat">2</button>
+            <button class="seat">1</button>
+        </div>
+        <div class="row-label">E</div>
+
+        <!-- Fila F -->
+        <div class="row-label">F</div>
+        <div class="row-F">
+            <button class="seat">9</button>
+            <button class="seat">8</button>
+            <button class="seat">7</button>
+            <button class="seat">6</button>
+            <button class="seat">5</button>
+            <button class="seat">4</button>
+            <button class="seat">3</button>
+            <button class="seat">2</button>
+            <button class="seat">1</button>
+        </div>
+        <div class="row-label">F</div>
+    </div>
+
+    <div class="screen">PANTALLA</div>
+
+</body>
+</html>
