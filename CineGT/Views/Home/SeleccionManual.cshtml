@@ -197,6 +197,12 @@
         function addSeat(asientoId, event) {
             event.preventDefault();  // Previene el envío del formulario
             var asientosField = document.getElementById("asientos");
+
+            // Desactiva el botón y cambia su color a naranja
+            var button = event.target;
+            button.disabled = true;  // Desactiva el botón
+            button.style.backgroundColor = "orange";  // Cambia el color a naranja
+
             if (asientosField.value) {
                 asientosField.value += "," + asientoId;
             } else {
@@ -204,6 +210,7 @@
             }
         }
     </script>
+
 
 
 
