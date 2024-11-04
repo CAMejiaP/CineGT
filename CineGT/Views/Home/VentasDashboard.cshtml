@@ -85,7 +85,48 @@
             .menu-button:hover {
                 opacity: 0.9;
             }
+        /* Contenedor principal para centrar el botón */
+        .salir-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px; /* Espacio entre el botón y el contenido superior */
+            margin-bottom: 20px;
+        }
+
+        /* Estilos para el botón */
+        .salir {
+            background-color: red;
+            padding: 8px 16px; /* Tamaño reducido del botón */
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 200px; /* Ancho máximo para el botón */
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+            .salir:hover {
+                background-color: darkred;
+            }
+
+        .boton_salir {
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+            .boton_salir:hover {
+                color: #000;
+            }
     </style>
+
 
 </head>
 <body>
@@ -98,8 +139,15 @@
                 <button type="submit" class="menu-button" name="procedureName" value="@actual">@actual</button>
 
             }
-        </form>
+        </form>        
     </div>
 
+    <footer class="salir-container">
+        <form class="formulario_boton" action="/Home/Index">
+            <div class="salir">
+                <input class="boton_salir" type="submit" value="Cerrar Sesión">
+            </div>
+        </form>
+    </footer>
 </body>
 </html>

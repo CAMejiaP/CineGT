@@ -1,5 +1,112 @@
 ﻿@model (List<(int idSesion, string nombrePelicula, DateTime fechaInicioSesion)>, List<ProcedureParameter>)
+<head>
+    <style>
+        /* Contenedor principal para centrar el botón */
+        .salir-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px; /* Espacio entre el botón y el contenido superior */
+            margin-bottom: 20px;
+        }
 
+        /* Estilos para el botón */
+        .salir {
+            background-color: #ffc107;
+            padding: 8px 16px; /* Tamaño reducido del botón */
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 200px; /* Ancho máximo para el botón */
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+            .salir:hover {
+                background-color: #e0a800;
+            }
+
+        .boton_salir {
+            background: transparent;
+            border: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+            .boton_salir:hover {
+                color: #000;
+            }
+
+        html {
+            box-sizing: border-box;
+        }
+
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
+
+        .cinema-seats {
+            display: grid;
+            grid-template-columns: 30px repeat(11, 50px) 30px; /* Columnas adicionales para los nombres de filas a ambos lados */
+            grid-gap: 5px; /* Ajusta el espacio entre los asientos */
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .seat {
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50; /* Color del asiento */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .seat-occupied {
+            background-color: red; /* Color para los asientos ocupados */
+        }
+
+        .row-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .screen {
+            margin: 40px auto 0 auto; /* Centro horizontalmente */
+            background-color: darkgrey;
+            width: calc(50px * 11 + 5px * 10); /* Ancho total de los asientos */
+            height: 50px;
+            text-align: center;
+            border-bottom-right-radius: 1.5rem;
+            border-bottom-left-radius: 1.5rem;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            line-height: 50px;
+        }
+
+
+        /* Ajusta las filas para centrar en función de la cantidad de columnas */
+        .row-A {
+            grid-column: 2 / span 11; /* Ajusta el rango de columnas para centrar */
+        }
+
+        .row-B, .row-C, .row-D, .row-E, .row-F {
+            grid-column: 3 / span 10; /* Ajusta el rango de columnas para centrar filas */
+        }
+    </style>
+</head>
 <h2>Próximas Sesiones</h2>
 
 @if (Model.Item1.Count > 0)
@@ -31,6 +138,14 @@ else
 {
     <p>No hay próximas sesiones disponibles.</p>
 }
+
+<footer class="salir-container">
+    <form class="formulario_boton" action="/Home/UserDashboard">
+        <div class="salir">
+            <input class="boton_salir" type="submit" value="Regresar al menú">
+        </div>
+    </form>
+</footer>
 
 @if (ViewBag.ErrorMessage != null)
 {
