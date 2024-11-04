@@ -176,6 +176,11 @@ namespace CineGT.Controllers
                 }
             }
 
+            if (parameters.Count == 0)
+            {
+                return ExecuteProcedure(procedureName, parameters);
+            }
+
             // Serializar los parámetros en JSON y almacenarlos en TempData
             TempData["ProcedureParameters"] = JsonConvert.SerializeObject(parameters);
 

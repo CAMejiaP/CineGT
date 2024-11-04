@@ -11,6 +11,51 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Krub&display=swap" rel="stylesheet">
     <link href="~/css/normalize.css" rel="stylesheet">
+
+    <style>
+        /* Contenedor principal para centrar el botón */
+        .salir-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px; /* Espacio entre el botón y el contenido superior */
+            margin-bottom: 20px;
+        }
+
+        /* Estilos para el botón */
+        .salir {
+            background-color: #ffc107;
+            padding: 8px 16px; /* Tamaño reducido del botón */
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 200px; /* Ancho máximo para el botón */
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+            .salir:hover {
+                background-color: #e0a800;
+            }
+
+        .boton_salir {
+            background: transparent;
+            border: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+            .boton_salir:hover {
+                color: #000;
+            }
+    </style>
+
+
 </head>
 
 <body>
@@ -30,7 +75,7 @@
             <!-- Campo oculto para ProcedureName -->
             <input type="hidden" name="ProcedureName" value="@Model.FirstOrDefault()?.ProcedureName" />
 
-            <!-- Ciclo para agregar los parámetros dinámicos -->
+            <!-- Ciclo para agregar los parámetros dinámicos -->            
             @for (int i = 0; i < Model.Count; i++)
             {
                 <div class="campo">
@@ -54,6 +99,14 @@
             </div>
         </form>
     </section>
+
+    <footer class="salir-container">
+        <form class="formulario_boton" action="/Home/UserDashboard">
+            <div class="salir">
+                <input class="boton_salir" type="submit" value="Regresar al menú">
+            </div>
+        </form>
+    </footer>
 
     @if (ViewBag.ErrorMessage != null)
     {

@@ -99,6 +99,8 @@ body {
     border: none;
 }
 
+
+
 .boton:hover {
     cursor: pointer;
 }
@@ -124,3 +126,5 @@ body {
     border-radius: 15px 0px 15px 0px;
     border: 0px solid #000000;
 }
+
+
