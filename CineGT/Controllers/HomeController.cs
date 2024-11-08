@@ -166,7 +166,7 @@ namespace CineGT.Controllers
                             {
                                 "int" => "number",
                                 "varchar" => "text",
-                                "datetime" => "datetime",
+                                "datetime" => "text",
                                 _ => "text"
                             };
 
