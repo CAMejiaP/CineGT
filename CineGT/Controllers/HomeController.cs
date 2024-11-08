@@ -166,9 +166,14 @@ namespace CineGT.Controllers
                             {
                                 "int" => "number",
                                 "varchar" => "text",
-                                "datetime" => "text",
+                                "datetime" => "datetime",
                                 _ => "text"
                             };
+
+                            if (parameter.DataType == "datetime")
+                            {
+                                parameter.MaxLength = 18;
+                            }
 
                             parameters.Add(parameter);
                         }
